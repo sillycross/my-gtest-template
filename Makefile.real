@@ -1,0 +1,37 @@
+DBG=0
+
+SRC_RELDIR = ../../
+
+FLAGS := -std=c++11 -isystem $(SRC_RELDIR)./gtest/include -pthread -mavx2 -g
+
+ifeq (${DBG},1)
+  FLAGS += -O0 
+else
+  FLAGS += -O3 -DNDEBUG
+endif
+
+SRCS := $(wildcard $(SRC_RELDIR)./*.cpp)
+OBJS := $(SRCS:$(SRC_RELDIR)%=%)
+OBJS := $(subst .cpp,.o,$(OBJS))
+
+main: $(OBJS) libgtest.a
+	g++ $(FLAGS) $(OBJS) libgtest.a -o main
+
+generated.dependency: $(SRCS)
+	rm -f ./generated.dependency
+	g++ $(FLAGS) -I$(SRC_RELDIR)./gtest -MM $^ > ./generated.dependency;
+
+include ./generated.dependency
+
+%.o: $(SRC_RELDIR)./%.cpp
+	g++ $(FLAGS) $(SRC_RELDIR)./$(*F).cpp -c 
+
+gtest-all.o:
+	g++ $(FLAGS) -I$(SRC_RELDIR)./gtest -c $(SRC_RELDIR)./gtest/src/gtest-all.cc
+
+libgtest.a: gtest-all.o
+	ar -rv libgtest.a gtest-all.o 
+
+clean:
+	rm *.o libgtest.a main generated.dependency
+
