@@ -1,3 +1,6 @@
+fake:
+	@echo "Please run either 'make debug' or 'make release'."
+
 debug: build/debug/Makefile
 	cd build/debug; \
 	make generated.dependency DBG=1; \
