@@ -1,4 +1,4 @@
-DBG=0
+##################### Configurations #####################
 
 # list of all directories containing .cpp and .h code
 # space separated, no forwardslash in the end
@@ -9,6 +9,9 @@ SRC_DIRS := .
 #
 EXTRA_FLAGS := 
 
+##########################################################
+
+DBG=0
 ifeq (${DBG},1)
   FLAGS := -O0 -DBUILD_FLAVOR=DEBUG -DDEBUG_BUILD
 else
