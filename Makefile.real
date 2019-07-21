@@ -1,7 +1,7 @@
 ##################### Configurations #####################
 
 # list of all directories containing .cpp and .h code
-# space separated, no forwardslash in the end
+# space separated, no forwardslash in the end, must start with './'
 #
 SRC_DIRS := . 
 
